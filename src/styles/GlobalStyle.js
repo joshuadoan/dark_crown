@@ -7,5 +7,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: Roboto, sans-serif;
+  color: #504f54;
+  font-size: 18px;
 }
 `
