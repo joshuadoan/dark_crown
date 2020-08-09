@@ -8,22 +8,27 @@ import {
   PostAudio,
 } from "@components/Posts"
 
+import { Title } from "@components/Title"
+import { Description } from "@components/Description"
+import { Page } from "@components/Page"
+import { GlobalStyle } from "@styles/GlobalStyle"
+
 export default function Home() {
   const [feed, setFeed] = useState({})
-  const { copyright, description, title, item: posts } = feed
+  const { copyright, description, title, item: posts = [] } = feed
 
   useEffect(() => {
     fetchFeed("https://adultingwell.libsyn.com/rss", setFeed)
   }, [])
 
   return (
-    <div>
-      <h1>{title}</h1>
-      <h2>{description}</h2>
-      <Posts>
-        {posts &&
-          posts.length &&
-          posts.map(
+    <>
+      <GlobalStyle />
+      <Page>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
+        <Posts>
+          {posts.map(
             (
               {
                 title: [title],
@@ -41,8 +46,9 @@ export default function Home() {
               )
             }
           )}
-      </Posts>
-      <footer>{copyright} </footer>
-    </div>
+        </Posts>
+        <footer>{copyright} </footer>
+      </Page>
+    </>
   )
 }
