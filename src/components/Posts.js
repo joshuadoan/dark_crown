@@ -15,3 +15,13 @@ export function PostTitle({ children }) {
 export function PostDescription({ children }) {
   return <p dangerouslySetInnerHTML={{ __html: children }} />
 }
+
+export function PostAudio({ children, enclosure }) {
+  const { $ } = enclosure;
+  return $ && (
+    <audio controls>
+      <source src={$.url} type="audio/mpeg" tracks={1} />
+      Your browser does not support the audio element.
+    </audio>
+  )
+}
