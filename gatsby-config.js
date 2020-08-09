@@ -1,3 +1,4 @@
+const path = require('path')
 /**
  * Configure your Gatsby site with this file.
  *
@@ -6,5 +7,15 @@
 
 module.exports = {
   /* Your site config here */
-  plugins: [],
+  plugins: [
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          "@utils": path.resolve(__dirname, 'src/utils')
+        },
+        extensions: []
+      }
+    }
+  ],
 }
