@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { parseString } from "xml2js"
-import Skeleton from "react-loading-skeleton"
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
+
 import {
   Posts,
   Post,
@@ -10,19 +11,15 @@ import {
 } from "@components/Posts"
 
 import { Description } from "@components/Description"
-import { GlobalStyle } from "@styles/GlobalStyle"
 import { Page } from "@components/Page"
 import { Title } from "@components/Title"
+
+import { GlobalStyle } from "@styles/GlobalStyle"
 
 export default function Home() {
   const [data, setData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
-  const {
-    copyright = <Skeleton count={1} />,
-    description = <Skeleton count={10} />,
-    title = <Skeleton count={1} />,
-    item: posts = [],
-  } = data
+  const { copyright, description, title, item: posts = [] } = data
 
   async function handleResponse(response) {
     const xml = await response.text()
@@ -33,7 +30,7 @@ export default function Home() {
         channel: [data],
       } = rss
       setData(data)
-      // setIsLoading(false)
+      setIsLoading(false)
     })
   }
 
@@ -42,11 +39,11 @@ export default function Home() {
     fetch("https://adultingwell.libsyn.com/rss").then(handleResponse)
   }, [])
 
-  useEffect(() => {
-    console.log("isLoading", isLoading)
-  })
-
-  return (
+  return isLoading ? (
+    <SkeletonTheme color="#cccccc" highlightColor="#fff">
+      <Skeleton count={1} height={8} />
+    </SkeletonTheme>
+  ) : (
     <>
       <GlobalStyle />
       <Page>
