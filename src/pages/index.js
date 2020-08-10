@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { parseString } from "xml2js"
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
 
 import {
   Posts,
@@ -40,9 +39,7 @@ export default function Home() {
   }, [])
 
   return isLoading ? (
-    <SkeletonTheme color="#cccccc" highlightColor="#fff">
-      <Skeleton count={1} height={8} />
-    </SkeletonTheme>
+    <p>loading...</p>
   ) : (
     <>
       <GlobalStyle />
