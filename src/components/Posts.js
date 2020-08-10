@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 export function Posts({ children }) {
-  const StyledPosts = styled.ul`
+  const StyledPosts = styled.div`
     margin: 0;
     padding: 0;
   `
@@ -11,10 +11,9 @@ export function Posts({ children }) {
 }
 
 export function Post({ children }) {
-  const StyledPost = styled.li`
+  const StyledPost = styled.section`
     margin: 0 0 24px 0;
     padding: 0 0 24px 0;
-    list-style: none;
     font-weight: lighter;
     border-bottom: 1px solid #cccccc;
   `
