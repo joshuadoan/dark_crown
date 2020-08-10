@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { fetchFeed } from "@utils/fetchFeed"
+import { feeds } from "@utils/feeds"
+import Select from "react-select"
 import {
   Posts,
   Post,
@@ -14,17 +16,24 @@ import { Page } from "@components/Page"
 import { GlobalStyle } from "@styles/GlobalStyle"
 
 export default function Home() {
-  const [feed, setFeed] = useState({})
-  const { copyright, description, title, item: posts = [] } = feed
+  const [data, setData] = useState({})
+  const [feed, setFeed] = useState(feeds[0])
+  const { copyright, description, title, item: posts = [] } = data
 
   useEffect(() => {
-    fetchFeed("https://adultingwell.libsyn.com/rss", setFeed)
-  }, [])
+    fetchFeed(feed.value, setData)
+  }, [feed.value])
 
   return (
     <>
       <GlobalStyle />
       <Page>
+        <Select
+          options={feeds}
+          onChange={setFeed}
+          defaultValue={feeds[0]}
+          isSearchable
+        />
         <Title>{title}</Title>
         <Description>{description}</Description>
         <Posts>

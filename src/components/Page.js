@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 const StyledPage = styled.div`
-  margin: 48px;
+  margin: 44px;
 `
 
 export function Page({ children }) {
