@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { fetchFeed } from "@utils/fetchFeed"
-import { feeds } from "@utils/feeds"
-import Select from "react-select"
+import { parseString } from "xml2js"
+import Skeleton from "react-loading-skeleton"
 import {
   Posts,
   Post,
@@ -10,30 +9,47 @@ import {
   PostAudio,
 } from "@components/Posts"
 
-import { Title } from "@components/Title"
 import { Description } from "@components/Description"
-import { Page } from "@components/Page"
 import { GlobalStyle } from "@styles/GlobalStyle"
+import { Page } from "@components/Page"
+import { Title } from "@components/Title"
 
 export default function Home() {
   const [data, setData] = useState({})
-  const [feed, setFeed] = useState(feeds[0])
-  const { copyright, description, title, item: posts = [] } = data
+  const [isLoading, setIsLoading] = useState(true)
+  const {
+    copyright = <Skeleton count={1} />,
+    description = <Skeleton count={10} />,
+    title = <Skeleton count={1} />,
+    item: posts = [],
+  } = data
+
+  async function handleResponse(response) {
+    const xml = await response.text()
+
+    parseString(xml, function (err, result = {}) {
+      const { rss = {} } = result
+      const {
+        channel: [data],
+      } = rss
+      setData(data)
+      // setIsLoading(false)
+    })
+  }
 
   useEffect(() => {
-    fetchFeed(feed.value, setData)
-  }, [feed.value])
+    setIsLoading(true)
+    fetch("https://adultingwell.libsyn.com/rss").then(handleResponse)
+  }, [])
+
+  useEffect(() => {
+    console.log("isLoading", isLoading)
+  })
 
   return (
     <>
       <GlobalStyle />
       <Page>
-        <Select
-          options={feeds}
-          onChange={setFeed}
-          defaultValue={feeds[0]}
-          isSearchable
-        />
         <Title>{title}</Title>
         <Description>{description}</Description>
         <Posts>
